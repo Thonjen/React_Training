@@ -45,7 +45,7 @@ function DataList() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFEB00] to-[#F4FFC3] p-6">
+    <div className="">
       <div className="w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
         <div className="text-2xl font-bold text-black drop-shadow-xl">Data Explorer</div>
       </div>

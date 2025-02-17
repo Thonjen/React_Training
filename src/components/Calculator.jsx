@@ -60,7 +60,6 @@ function Calculator() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-xl w-full max-w-5xl">
         {/* Calculator Section */}
         <div className="flex flex-col items-center space-y-8">
@@ -128,7 +127,6 @@ function Calculator() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
