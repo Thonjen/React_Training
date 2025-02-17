@@ -50,14 +50,15 @@ function DataList() {
         <div className="text-2xl font-bold text-black drop-shadow-xl">Data Explorer</div>
       </div>
 
-      <div className="flex justify-center space-x-4 p-4">
+      {/* Dataset buttons */}
+      <div className="flex flex-wrap justify-center space-x-4 p-4">
         {["albums", "comments", "photos", "posts", "todos"].map((dataset) => (
           <motion.button
             key={dataset}
             onClick={() => setSelectedDataset(dataset)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+            className={`w-full sm:w-auto border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
               selectedDataset === dataset
                 ? "text-black border-yellow-600 font-bold"
                 : "hover:text-black"
@@ -70,10 +71,12 @@ function DataList() {
 
       <div className="p-6">
         <h1 className="text-3xl font-bold text-black mb-6">Manage Your Data</h1>
+
+        {/* Create New Item Button */}
         <motion.button
           onClick={() => handleModalToggle()}
           whileHover={{ scale: 1.05 }}
-          className="w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg mb-4"
+          className="w-full sm:w-auto border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg mb-4"
         >
           Create New Item
         </motion.button>
@@ -84,48 +87,80 @@ function DataList() {
           <p className="text-center text-red-500">Error: {error.message}</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white bg-opacity-70 backdrop-blur-xl border-2 border-yellow-300 rounded-xl shadow-xl">
-              <thead>
-                <tr className="bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-black">
-                  <th className="py-3 px-4 text-left">User ID</th>
-                  <th className="py-3 px-4 text-left">Title</th>
-                  <th className="py-3 px-4 text-left">Body</th>
-                  <th className="py-3 px-4 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((item) => (
-                  <tr key={item.id} className="border-b border-yellow-300 hover:bg-yellow-100">
-                    <td className="py-3 px-4">{item.userId}</td>
-                    <td className="py-3 px-4">{item.title}</td>
-                    <td className="py-3 px-4">{item.body}</td>
-                    <td className="py-3 px-4 space-x-2">
-                      <motion.button
-                        onClick={() => handleModalToggle(item)}
-                        whileHover={{ scale: 1.1 }}
-                        className="w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
-                      >
-                        Edit
-                      </motion.button>
-                      <motion.button
-                        onClick={() => setData(data.filter((i) => i.id !== item.id))}
-                        whileHover={{ scale: 1.1 }}
-                        className="w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
-                      >
-                        Delete
-                      </motion.button>
-                    </td>
+            {/* Responsive Table Layout */}
+            <div className="block sm:hidden">
+              {/* Mobile Card View */}
+              {data.map((item) => (
+                <div key={item.id} className="mb-4 p-4 bg-white bg-opacity-70 border-2 border-yellow-300 rounded-xl shadow-xl">
+                  <p><strong>User ID:</strong> {item.userId}</p>
+                  <p><strong>Title:</strong> {item.title}</p>
+                  <p><strong>Body:</strong> {item.body}</p>
+                  <div className="mt-2 flex flex-col space-y-2">
+                    <motion.button
+                      onClick={() => handleModalToggle(item)}
+                      whileHover={{ scale: 1.1 }}
+                      className="w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                    >
+                      Edit
+                    </motion.button>
+                    <motion.button
+                      onClick={() => setData(data.filter((i) => i.id !== item.id))}
+                      whileHover={{ scale: 1.1 }}
+                      className="w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                    >
+                      Delete
+                    </motion.button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden sm:block">
+              <table className="min-w-full bg-white bg-opacity-70 backdrop-blur-xl border-2 border-yellow-300 rounded-xl shadow-xl">
+                <thead>
+                  <tr className="bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-black">
+                    <th className="py-3 px-4 text-left">User ID</th>
+                    <th className="py-3 px-4 text-left">Title</th>
+                    <th className="py-3 px-4 text-left">Body</th>
+                    <th className="py-3 px-4 text-left">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {data.map((item) => (
+                    <tr key={item.id} className="border-b border-yellow-300 hover:bg-yellow-100">
+                      <td className="py-3 px-4">{item.userId}</td>
+                      <td className="py-3 px-4">{item.title}</td>
+                      <td className="py-3 px-4">{item.body}</td>
+                      <td className="py-3 px-4 space-x-2">
+                        <motion.button
+                          onClick={() => handleModalToggle(item)}
+                          whileHover={{ scale: 1.1 }}
+                          className="w-full sm:w-auto border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                        >
+                          Edit
+                        </motion.button>
+                        <motion.button
+                          onClick={() => setData(data.filter((i) => i.id !== item.id))}
+                          whileHover={{ scale: 1.1 }}
+                          className="w-full sm:w-auto border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                        >
+                          Delete
+                        </motion.button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
 
+      {/* Modal */}
       {modalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-xl shadow-xl w-1/3 border-2 border-yellow-500 backdrop-blur-xl">
+          <div className="bg-white p-6 rounded-xl shadow-xl w-11/12 sm:w-1/3 border-2 border-yellow-500 backdrop-blur-xl">
             <h2 className="text-xl font-semibold text-black mb-4">
               {editingItem ? "Edit Item" : "Create New Item"}
             </h2>
@@ -152,18 +187,18 @@ function DataList() {
               placeholder="Body"
               className="w-full p-3 mb-4 border-2 border-yellow-500 rounded-lg bg-opacity-50 focus:ring-2 focus:ring-yellow-400"
             />
-            <div className="flex space-x-4">
+            <div className="flex flex-col sm:flex-row sm:space-x-4">
               <motion.button
                 onClick={handleCreateOrUpdate}
                 whileHover={{ scale: 1.1 }}
-                className="w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                className="w-full sm:w-auto border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
               >
                 {editingItem ? "Update" : "Create"}
               </motion.button>
               <motion.button
                 onClick={() => setModalOpen(false)}
                 whileHover={{ scale: 1.1 }}
-                className="w-full border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                className="w-full sm:w-auto border bg-gradient-to-r from-[#FFEB00] to-[#F4FFC3] text-gray-800 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
               >
                 Cancel
               </motion.button>
